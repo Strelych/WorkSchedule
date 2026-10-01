@@ -1,0 +1,63 @@
+roles:
+  supervisor:
+    name: "Супервайзер"
+    can_take_valet_day: true
+    can_take_valet_night: false
+    shifts:
+      - id: "sup_morning"
+        name: "Утренняя"
+        start_time: "08:00"
+        end_time: "16:00"
+        duration_hours: 8
+        default_capacity: 2
+      - id: "sup_evening"
+        name: "Вечерняя"
+        start_time: "14:00"
+        end_time: "22:00"
+        duration_hours: 8
+        default_capacity: 2
+      - id: "sup_long"
+        name: "Длинная (1 чел.)"
+        start_time: "09:00"
+        end_time: "21:00"
+        duration_hours: 12
+        default_capacity: 1
+  valet_day:
+    name: "Дневной валет"
+    shifts:
+      - id: "val_day"
+        name: "Дневная"
+        start_time: "09:00"
+        end_time: "21:00"
+        duration_hours: 12
+        default_capacity: 2
+      - id: "val_evening"
+        name: "Вечерняя"
+        start_time: "11:00"
+        end_time: "23:00"
+        duration_hours: 12
+        default_capacity: 1
+  valet_night:
+    name: "Ночной валет"
+    shifts:
+      - id: "val_night"
+        name: "Ночная"
+        start_time: "21:00"
+        end_time: "09:00"
+        duration_hours: 12
+        default_capacity: 4
+        is_overnight: true
+
+generation_rules:
+  daily_template:
+    - role: "supervisor"
+      shift_ids: ["sup_morning", "sup_evening"]
+    - role: "valet_day"
+      shift_ids: ["val_day", "val_evening"]
+    - role: "valet_night"
+      shift_ids: ["val_night"]
+  min_rest_hours: 10
+  max_weekly_hours: 48
+
+notifications:
+  remind_hours_before: 24
